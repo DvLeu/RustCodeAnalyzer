@@ -33,6 +33,7 @@ TOKEN : {
   | < RETURN: "return" >
   | < IF: "if" >
   | < ELSE: "else" >
+  | <ELSEIF : "else if">
   | < WHILE: "while" >
   | < FOR: "for" >
   | < IN: "in" >
@@ -87,7 +88,6 @@ TOKEN : {
   | < IDENTIFIER: (["a"-"z", "A"-"Z", "_"]) (["a"-"z", "A"-"Z", "0"-"9", "_"])* >
 }
 
-
 /** Fin Lexico **/
 
 // Define el programa como una serie de declaraciones
@@ -105,6 +105,7 @@ void Statement() : {}
   | ExpressionStatement()
   | Block()
   | PrintStatement()
+  | FunctionCallStatement()
 }
 
 // Define una declaración de variable
@@ -142,7 +143,7 @@ void ControlStructure() : {}
 // Define una declaración if
 void IfStatement() : {}
 {
-    <IF> Expression() Block() [ <ELSE> Block() ]
+    <IF> Expression() Block() ( <ELSEIF> Expression() Block() )* [ <ELSE> Block() ]
 }
 
 // Define una declaración while
@@ -154,7 +155,7 @@ void WhileStatement() : {}
 // Define una declaración for
 void ForStatement() : {}
 {
-    <FOR> <IDENTIFIER> <IN> Expression() "=" <INT> Block()
+    <FOR> <IDENTIFIER> <IN> Expression() Block()
 }
 
 // Define un bloque de código
@@ -172,10 +173,58 @@ void ExpressionStatement() : {}
 // Define una expresión, que puede ser un literal, un identificador, una llamada a función, una operación binaria, una operación unaria, o una expresión entre paréntesis
 void Expression() : {}
 {
-    PrimaryExpression() (BinaryOperator() PrimaryExpression())*
+    Assignment() | LogicalOrExpression()
 }
 
-// Define un literal
+// Define una asignación
+void Assignment() : {}
+{
+    <IDENTIFIER> <EQUAL> Expression()
+}
+
+// Define una expresión lógica OR
+void LogicalOrExpression() : {}
+{
+    LogicalAndExpression() ( <OR> LogicalAndExpression() )*
+}
+
+// Define una expresión lógica AND
+void LogicalAndExpression() : {}
+{
+    EqualityExpression() ( <AND> EqualityExpression() )*
+}
+
+// Define una expresión de igualdad
+void EqualityExpression() : {}
+{
+    RelationalExpression() ( ( <EQUALTO> | <NOTEQUAL> ) RelationalExpression() )*
+}
+
+// Define una expresión relacional
+void RelationalExpression() : {}
+{
+    AdditiveExpression() ( ( <LESSTHAN> | <GREATERTHAN> | <LESSTHANEQUAL> | <GREATERTHANEQUAL> ) AdditiveExpression() )*
+}
+
+// Define una expresión aditiva
+void AdditiveExpression() : {}
+{
+    MultiplicativeExpression() ( ( <PLUS> | <MINUS> ) MultiplicativeExpression() )*
+}
+
+// Define una expresión multiplicativa
+void MultiplicativeExpression() : {}
+{
+    UnaryExpression() ( ( <MULTIPLICATION> | <DIVISION> | <MODULUS> ) UnaryExpression() )*
+}
+
+// Define una expresión unaria
+void UnaryExpression() : {}
+{
+    <NOT> UnaryExpression() | PrimaryExpression()
+}
+
+// Define una expresión primaria
 void PrimaryExpression() : {}
 {
     Literal()
@@ -198,6 +247,12 @@ void Literal() : {}
 void FunctionCall() : {}
 {
     <IDENTIFIER> <LPARENT> [ArgumentList()] <RPARENT>
+}
+
+// Define una declaración de llamada a función
+void FunctionCallStatement() : {}
+{
+    FunctionCall() <PUNTOYCOMA>
 }
 
 // Define una lista de argumentos
@@ -223,10 +278,6 @@ void UnaryOperator() : {}
 {
     <NOT> | <MINUS>
 }
-void PrintStatement() : {}
-{
-    <PRINTLN> <LPARENT> [ArgumentList()] <RPARENT> <PUNTOYCOMA>
-}
 
 // Define un tipo de dato
 void Type() : {}
@@ -237,4 +288,10 @@ void Type() : {}
     <STR> |
     <STRING_KEYWORD> |
     <IDENTIFIER>
+}
+
+// Define una declaración de impresión
+void PrintStatement() : {}
+{
+    <PRINTLN> <LPARENT> [ArgumentList()] <RPARENT> <PUNTOYCOMA>
 }

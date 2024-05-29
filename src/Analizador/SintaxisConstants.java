@@ -11,17 +11,19 @@ public interface SintaxisConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int FN = 6;
+  int FN = 5;
   /** RegularExpression Id. */
-  int LET = 7;
+  int LET = 6;
   /** RegularExpression Id. */
-  int MUT = 8;
+  int MUT = 7;
   /** RegularExpression Id. */
-  int RETURN = 9;
+  int RETURN = 8;
   /** RegularExpression Id. */
-  int IF = 10;
+  int IF = 9;
   /** RegularExpression Id. */
-  int ELSE = 11;
+  int ELSE = 10;
+  /** RegularExpression Id. */
+  int ELSEIF = 11;
   /** RegularExpression Id. */
   int WHILE = 12;
   /** RegularExpression Id. */
@@ -113,13 +115,13 @@ public interface SintaxisConstants {
     "\"\\t\"",
     "\"\\r\"",
     "\"\\n\"",
-    "\"//.*\"",
     "\"fn\"",
     "\"let\"",
     "\"mut\"",
     "\"return\"",
     "\"if\"",
     "\"else\"",
+    "\"else if\"",
     "\"while\"",
     "\"for\"",
     "\"in\"",
