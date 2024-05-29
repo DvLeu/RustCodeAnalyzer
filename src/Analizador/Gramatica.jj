@@ -93,6 +93,8 @@ TOKEN : {
 
 /** Fin Lexico **/
 
+// Comienza analizador de syntaxis.
+
 // Define el programa como una serie de declaraciones
 void Program() : {}
 {
