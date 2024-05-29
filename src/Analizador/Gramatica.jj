@@ -1,0 +1,123 @@
+options {
+  IGNORE_CASE = true;
+  STATIC = false;
+  BUILD_PARSER = true;
+  LOOKAHEAD = 2;
+  FORCE_LA_CHECK = true;
+}
+
+PARSER_BEGIN(Sintaxis)
+package Analizador;
+public class Sintaxis {
+    public static void main(String[] args) throws ParseException {
+        Sintaxis parser = new Sintaxis(System.in);
+        parser.Program();
+    }
+}
+PARSER_END(Sintaxis)
+
+/** Inicio del lexico **/
+
+SKIP : {
+    " "
+  | "\t"
+  | "\r"
+  | "\n"
+}
+
+// Tokens de palabras reservadas
+TOKEN : {
+    < FN: "fn" >
+  | < LET: "let" >
+  | < MUT: "mut" >
+  | < RETURN: "return" >
+  | < IF: "if" >
+  | < ELSE: "else" >
+  | < TRUE: "true" >
+  | < FALSE: "false" >
+  | < I32: "i32" >
+  | < F64: "f64" >
+  | < BOOL: "bool" >
+  | < STR: "str" >
+  | <INTKEY : "int">
+  | < STRINGKEY: "String" >
+  | < PRINTLN: "println!" >
+}
+
+// Tokens de operadores
+TOKEN : {
+    < PLUS: "+" >
+  | < MINUS: "-" >
+  | < MULTIPLICATION: "*" >
+  | < DIVISION: "/" >
+  | < MODULUS: "%" >
+  | < EQUALTO: "==" >
+  | < NOTEQUAL: "!=" >
+  | < LESSTHAN: "<" >
+  | < GREATERTHAN: ">" >
+  | < LESSTHANEQUAL: "<=" >
+  | < GREATERTHANEQUAL: ">=" >
+  | < AND: "&&" >
+  | < OR: "||" >
+  | < NOT: "!" >
+  | < EQUAL: "=" >
+}
+
+// Tokens de símbolos
+TOKEN : {
+    < LPARENT: "(" >
+  | < RPARENT: ")" >
+  | < LBRACKET: "[" >
+  | < RBRACKET: "]" >
+  | < LBRACE: "{" >
+  | < RBRACE: "}" >
+  | < COMMA: "," >
+  | < PUNTOYCOMA: ";" >
+  | < COLON: ":" >
+  | < ARROW: "->" >
+}
+
+// Tokens de números y cadenas
+TOKEN : {
+    < INT: (["0"-"9"])+ >
+  | < FLOAT: (["0"-"9"])+ "." (["0"-"9"])+ >
+  | < STRING: "'"(["a"-"z"] | ["A" - "Z"] | ["0"-"9"] | [" "]) + "'">
+  | < IDENTIFIER: (["a"-"z", "A"-"Z", "_"]) (["a"-"z", "A"-"Z", "0"-"9", "_"])* >
+}
+
+/** Fin Lexico **/
+
+void Program() : {}
+{
+    (Statement())*
+}
+
+// Define una declaración como una declaración de variable o una declaración de función
+void Statement() : {}
+{
+    VariableDeclaration()
+}
+
+// Define una declaración de variable
+void VariableDeclaration() : {}
+{
+    <LET> [<MUT>] <IDENTIFIER> [":" Type()] <EQUAL> Literal() <PUNTOYCOMA>
+}
+
+void Type() : {}
+{
+    <I32> |
+    <F64> |
+    <BOOL> |
+    <STRINGKEY> |
+    <INTKEY>
+}
+
+void Literal() : {}
+{
+    <STRING> |
+    <FLOAT> |
+    <INT> |
+    <TRUE> |
+    <FALSE>
+}
