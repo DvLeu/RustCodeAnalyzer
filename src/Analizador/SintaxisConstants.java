@@ -11,101 +11,101 @@ public interface SintaxisConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int FN = 5;
+  int FN = 7;
   /** RegularExpression Id. */
-  int LET = 6;
+  int LET = 8;
   /** RegularExpression Id. */
-  int MUT = 7;
+  int MUT = 9;
   /** RegularExpression Id. */
-  int RETURN = 8;
+  int RETURN = 10;
   /** RegularExpression Id. */
-  int IF = 9;
+  int IF = 11;
   /** RegularExpression Id. */
-  int ELSE = 10;
+  int ELSE = 12;
   /** RegularExpression Id. */
-  int ELSEIF = 11;
+  int ELSEIF = 13;
   /** RegularExpression Id. */
-  int WHILE = 12;
+  int WHILE = 14;
   /** RegularExpression Id. */
-  int FOR = 13;
+  int FOR = 15;
   /** RegularExpression Id. */
-  int IN = 14;
+  int IN = 16;
   /** RegularExpression Id. */
-  int TRUE = 15;
+  int TRUE = 17;
   /** RegularExpression Id. */
-  int FALSE = 16;
+  int FALSE = 18;
   /** RegularExpression Id. */
-  int I32 = 17;
+  int I32 = 19;
   /** RegularExpression Id. */
-  int F64 = 18;
+  int F64 = 20;
   /** RegularExpression Id. */
-  int BOOL = 19;
+  int BOOL = 21;
   /** RegularExpression Id. */
-  int STR = 20;
+  int STR = 22;
   /** RegularExpression Id. */
-  int STRING_KEYWORD = 21;
+  int STRING_KEYWORD = 23;
   /** RegularExpression Id. */
-  int PRINTLN = 22;
+  int PRINTLN = 24;
   /** RegularExpression Id. */
-  int PRINT = 23;
+  int PRINT = 25;
   /** RegularExpression Id. */
-  int PLUS = 24;
+  int PLUS = 26;
   /** RegularExpression Id. */
-  int MINUS = 25;
+  int MINUS = 27;
   /** RegularExpression Id. */
-  int MULTIPLICATION = 26;
+  int MULTIPLICATION = 28;
   /** RegularExpression Id. */
-  int DIVISION = 27;
+  int DIVISION = 29;
   /** RegularExpression Id. */
-  int MODULUS = 28;
+  int MODULUS = 30;
   /** RegularExpression Id. */
-  int EQUALTO = 29;
+  int EQUALTO = 31;
   /** RegularExpression Id. */
-  int NOTEQUAL = 30;
+  int NOTEQUAL = 32;
   /** RegularExpression Id. */
-  int LESSTHAN = 31;
+  int LESSTHAN = 33;
   /** RegularExpression Id. */
-  int GREATERTHAN = 32;
+  int GREATERTHAN = 34;
   /** RegularExpression Id. */
-  int LESSTHANEQUAL = 33;
+  int LESSTHANEQUAL = 35;
   /** RegularExpression Id. */
-  int GREATERTHANEQUAL = 34;
+  int GREATERTHANEQUAL = 36;
   /** RegularExpression Id. */
-  int AND = 35;
+  int AND = 37;
   /** RegularExpression Id. */
-  int OR = 36;
+  int OR = 38;
   /** RegularExpression Id. */
-  int NOT = 37;
+  int NOT = 39;
   /** RegularExpression Id. */
-  int EQUAL = 38;
+  int EQUAL = 40;
   /** RegularExpression Id. */
-  int LPARENT = 39;
+  int LPARENT = 41;
   /** RegularExpression Id. */
-  int RPARENT = 40;
+  int RPARENT = 42;
   /** RegularExpression Id. */
-  int LBRACKET = 41;
+  int LBRACKET = 43;
   /** RegularExpression Id. */
-  int RBRACKET = 42;
+  int RBRACKET = 44;
   /** RegularExpression Id. */
-  int LBRACE = 43;
+  int LBRACE = 45;
   /** RegularExpression Id. */
-  int RBRACE = 44;
+  int RBRACE = 46;
   /** RegularExpression Id. */
-  int COMMA = 45;
+  int COMMA = 47;
   /** RegularExpression Id. */
-  int PUNTOYCOMA = 46;
+  int PUNTOYCOMA = 48;
   /** RegularExpression Id. */
-  int COLON = 47;
+  int COLON = 49;
   /** RegularExpression Id. */
-  int ARROW = 48;
+  int ARROW = 50;
   /** RegularExpression Id. */
-  int INT = 49;
+  int INT = 51;
   /** RegularExpression Id. */
-  int FLOAT = 50;
+  int FLOAT = 52;
   /** RegularExpression Id. */
-  int STRING = 51;
+  int STRING = 53;
   /** RegularExpression Id. */
-  int IDENTIFIER = 52;
+  int IDENTIFIER = 54;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -117,6 +117,8 @@ public interface SintaxisConstants {
     "\"\\t\"",
     "\"\\r\"",
     "\"\\n\"",
+    "<token of kind 5>",
+    "<token of kind 6>",
     "\"fn\"",
     "\"let\"",
     "\"mut\"",
@@ -166,6 +168,7 @@ public interface SintaxisConstants {
     "<STRING>",
     "<IDENTIFIER>",
     "\"\"",
+    "\"..\"",
   };
 
 }

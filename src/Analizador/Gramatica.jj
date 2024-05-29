@@ -23,6 +23,8 @@ SKIP : {
   | "\t"
   | "\r"
   | "\n"
+  | < "/" (~[" "])* "" (~["/"] (~[" "])* "") "/" > // Comentarios multilínea
+  | < "//" (~["\r", "\n"])* ("\r" | "\n") > // Comentarios de una línea
 }
 
 // Tokens de palabras reservadas
@@ -33,7 +35,7 @@ TOKEN : {
   | < RETURN: "return" >
   | < IF: "if" >
   | < ELSE: "else" >
-  | <ELSEIF : "else if">
+  | < ELSEIF: "else if" >
   | < WHILE: "while" >
   | < FOR: "for" >
   | < IN: "in" >
@@ -45,7 +47,7 @@ TOKEN : {
   | < STR: "str" >
   | < STRING_KEYWORD: "String" >
   | < PRINTLN: "println!" >
-  | <PRINT: "print!">
+  | < PRINT: "print!" >
 }
 
 // Tokens de operadores
@@ -156,7 +158,7 @@ void WhileStatement() : {}
 // Define una declaración for
 void ForStatement() : {}
 {
-    <FOR> <IDENTIFIER> <IN> Expression() Block()
+    <FOR> <IDENTIFIER> <IN> <INT> ".." [<EQUAL> ] Expression() Block()
 }
 
 // Define un bloque de código
@@ -262,33 +264,15 @@ void ArgumentList() : {}
     Expression() ( <COMMA> Expression() )* | ""
 }
 
-// Define una operación binaria
-void BinaryOperator() : {}
-{
-    <PLUS> | <MINUS> | <MULTIPLICATION> | <DIVISION> | <EQUALTO> | <NOTEQUAL> | <LESSTHAN> | <GREATERTHAN> | <LESSTHANEQUAL> | <GREATERTHANEQUAL>
-}
-
-// Define una operación unaria
-void UnaryOperation() : {}
-{
-    UnaryOperator() PrimaryExpression()
-}
-
-// Define un operador unario
-void UnaryOperator() : {}
-{
-    <NOT> | <MINUS>
-}
-
 // Define un tipo de dato
 void Type() : {}
 {
-    <I32> |
-    <F64> |
-    <BOOL> |
-    <STR> |
-    <STRING_KEYWORD> |
-    <IDENTIFIER>
+    < I32 >
+  | < F64 >
+  | < BOOL >
+  | < STR >
+  | < STRING_KEYWORD >
+  | < IDENTIFIER > // Para tipos definidos por el usuario
 }
 
 // Define una declaración de impresión
