@@ -23,7 +23,7 @@ SKIP : {
   | "\t"
   | "\r"
   | "\n"
-  | < "/" (~[" "])* "" (~["/"] (~[" "])* "") "/" > // Comentarios multilínea
+  | <"/*" (~["*"])* ("*" ~["/"] (~["*"])* )* "*/">
   | < "//" (~["\r", "\n"])* ("\r" | "\n") > // Comentarios de una línea
 }
 
@@ -96,144 +96,138 @@ TOKEN : {
 // Define el programa como una serie de declaraciones
 void Program() : {}
 {
-    (Statement())*
+    (Declaracion())*
 }
 
 // Define una declaración como una declaración de variable, una declaración de función, una estructura de control, una expresión o un bloque
-void Statement() : {}
+void Declaracion() : {}
 {
-    VariableDeclaration()
-  | FunctionDeclaration()
-  | ControlStructure()
-  | ExpressionStatement()
-  | Block()
-  | PrintStatement()
-  | FunctionCallStatement()
+    DeclaracionVariable()
+  | DeclaracionFuncion()
+  | EstructuraControl()
+  | Expresion()
+  | Bloque()
+  | DeclaracionImpresion()
+  | DeclaracionLlamadaFuncion()
 }
 
 // Define una declaración de variable
-void VariableDeclaration() : {}
+void DeclaracionVariable() : {}
 {
-    <LET> [<MUT>] <IDENTIFIER> [":" Type()] "=" Expression() <PUNTOYCOMA>
+    <LET> [<MUT>] <IDENTIFIER> [":" Tipo()] "=" Expresion() <PUNTOYCOMA>
 }
 
 // Define una declaración de función
-void FunctionDeclaration() : {}
+void DeclaracionFuncion() : {}
 {
-    <FN> <IDENTIFIER> <LPARENT> [ParameterList()] <RPARENT> [ <ARROW> Type() ] Block()
+    <FN> <IDENTIFIER> <LPARENT> [ListaParametros()] <RPARENT> [ <ARROW> Tipo() ] Bloque()
 }
 
 // Define una lista de parámetros de función
-void ParameterList() : {}
+void ListaParametros() : {}
 {
-    Parameter() ( <COMMA> Parameter() )* | ""
+    Parametro() ( <COMMA> Parametro() )* | ""
 }
 
 // Define un parámetro de función
-void Parameter() : {}
+void Parametro() : {}
 {
-    <IDENTIFIER> <COLON> Type()
+    <IDENTIFIER> <COLON> Tipo()
 }
 
 // Define una estructura de control
-void ControlStructure() : {}
+void EstructuraControl() : {}
 {
-    IfStatement()
-  | WhileStatement()
-  | ForStatement()
+    DeclaracionIf()
+  | DeclaracionWhile()
+  | DeclaracionFor()
 }
 
-// Define una declaración if
-void IfStatement() : {}
+// Define una declaración if con soporte para else if y else
+void DeclaracionIf() : {}
 {
-    <IF> Expression() Block() ( <ELSEIF> Expression() Block() )* [ <ELSE> Block() ]
+    <IF> Expresion() Bloque() ( <ELSEIF> Expresion() Bloque() )* [ <ELSE> Bloque() ]
 }
 
 // Define una declaración while
-void WhileStatement() : {}
+void DeclaracionWhile() : {}
 {
-    <WHILE> Expression() Block()
+    <WHILE> Expresion() Bloque()
 }
 
 // Define una declaración for
-void ForStatement() : {}
+void DeclaracionFor() : {}
 {
-    <FOR> <IDENTIFIER> <IN> <INT> ".." [<EQUAL> ] Expression() Block()
+    <FOR> <IDENTIFIER> <IN> Expresion() ".." [ <EQUAL> ] Expresion() Bloque()
 }
 
 // Define un bloque de código
-void Block() : {}
+void Bloque() : {}
 {
-    <LBRACE> (Statement())* <RBRACE>
+    <LBRACE> (Declaracion())* <RBRACE>
 }
 
 // Define una expresión
-void ExpressionStatement() : {}
+void Expresion() : {}
 {
-    Expression() <PUNTOYCOMA>
-}
-
-// Define una expresión, que puede ser un literal, un identificador, una llamada a función, una operación binaria, una operación unaria, o una expresión entre paréntesis
-void Expression() : {}
-{
-    Assignment() | LogicalOrExpression()
+    ExpresionAsignacion() | ExpresionLogicaOr()
 }
 
 // Define una asignación
-void Assignment() : {}
+void ExpresionAsignacion() : {}
 {
-    <IDENTIFIER> <EQUAL> Expression()
+    <IDENTIFIER> <EQUAL> Expresion()
 }
 
 // Define una expresión lógica OR
-void LogicalOrExpression() : {}
+void ExpresionLogicaOr() : {}
 {
-    LogicalAndExpression() ( <OR> LogicalAndExpression() )*
+    ExpresionLogicaAnd() ( <OR> ExpresionLogicaAnd() )*
 }
 
 // Define una expresión lógica AND
-void LogicalAndExpression() : {}
+void ExpresionLogicaAnd() : {}
 {
-    EqualityExpression() ( <AND> EqualityExpression() )*
+    ExpresionIgualdad() ( <AND> ExpresionIgualdad() )*
 }
 
 // Define una expresión de igualdad
-void EqualityExpression() : {}
+void ExpresionIgualdad() : {}
 {
-    RelationalExpression() ( ( <EQUALTO> | <NOTEQUAL> ) RelationalExpression() )*
+    ExpresionRelacional() ( ( <EQUALTO> | <NOTEQUAL> ) ExpresionRelacional() )*
 }
 
 // Define una expresión relacional
-void RelationalExpression() : {}
+void ExpresionRelacional() : {}
 {
-    AdditiveExpression() ( ( <LESSTHAN> | <GREATERTHAN> | <LESSTHANEQUAL> | <GREATERTHANEQUAL> ) AdditiveExpression() )*
+    ExpresionAditiva() ( ( <LESSTHAN> | <GREATERTHAN> | <LESSTHANEQUAL> | <GREATERTHANEQUAL> ) ExpresionAditiva() )*
 }
 
 // Define una expresión aditiva
-void AdditiveExpression() : {}
+void ExpresionAditiva() : {}
 {
-    MultiplicativeExpression() ( ( <PLUS> | <MINUS> ) MultiplicativeExpression() )*
+    ExpresionMultiplicativa() ( ( <PLUS> | <MINUS> ) ExpresionMultiplicativa() )*
 }
 
 // Define una expresión multiplicativa
-void MultiplicativeExpression() : {}
+void ExpresionMultiplicativa() : {}
 {
-    UnaryExpression() ( ( <MULTIPLICATION> | <DIVISION> | <MODULUS> ) UnaryExpression() )*
+    ExpresionUnaria() ( ( <MULTIPLICATION> | <DIVISION> | <MODULUS> ) ExpresionUnaria() )*
 }
 
 // Define una expresión unaria
-void UnaryExpression() : {}
+void ExpresionUnaria() : {}
 {
-    <NOT> UnaryExpression() | PrimaryExpression()
+    <NOT> ExpresionUnaria() | ExpresionPrimaria()
 }
 
 // Define una expresión primaria
-void PrimaryExpression() : {}
+void ExpresionPrimaria() : {}
 {
     Literal()
   | <IDENTIFIER>
-  | FunctionCall()
-  | <LPARENT> Expression() <RPARENT>
+  | LlamadaFuncion()
+  | <LPARENT> Expresion() <RPARENT>
 }
 
 // Define un literal
@@ -247,25 +241,25 @@ void Literal() : {}
 }
 
 // Define una llamada a función
-void FunctionCall() : {}
+void LlamadaFuncion() : {}
 {
-    <IDENTIFIER> <LPARENT> [ArgumentList()] <RPARENT>
+    <IDENTIFIER> <LPARENT> [ListaArgumentos()] <RPARENT>
 }
 
 // Define una declaración de llamada a función
-void FunctionCallStatement() : {}
+void DeclaracionLlamadaFuncion() : {}
 {
-    FunctionCall() <PUNTOYCOMA>
+    LlamadaFuncion() <PUNTOYCOMA>
 }
 
 // Define una lista de argumentos
-void ArgumentList() : {}
+void ListaArgumentos() : {}
 {
-    Expression() ( <COMMA> Expression() )* | ""
+    Expresion() ( <COMMA> Expresion() )* | ""
 }
 
 // Define un tipo de dato
-void Type() : {}
+void Tipo() : {}
 {
     < I32 >
   | < F64 >
@@ -276,7 +270,7 @@ void Type() : {}
 }
 
 // Define una declaración de impresión
-void PrintStatement() : {}
+void DeclaracionImpresion() : {}
 {
-    (<PRINTLN> | <PRINT> ) <LPARENT> [ArgumentList()] <RPARENT> <PUNTOYCOMA>
+    (<PRINTLN> | <PRINT> ) <LPARENT> [ListaArgumentos()] <RPARENT> <PUNTOYCOMA>
 }
