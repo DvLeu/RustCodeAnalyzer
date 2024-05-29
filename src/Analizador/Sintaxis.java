@@ -8,6 +8,8 @@ public class Sintaxis implements SintaxisConstants {
 
 /** Fin Lexico **/
 
+// Comienza analizador de sintaxis.
+
 // Define el programa como una serie de declaraciones
   final public void Program() throws ParseException {
     label_1:
@@ -19,6 +21,7 @@ public class Sintaxis implements SintaxisConstants {
       }
       Declaracion();
     }
+    jj_consume_token(0);
   }
 
 // Define una declaración como una declaración de variable, una declaración de función, una estructura de control, una expresión o un bloque
@@ -30,13 +33,14 @@ public class Sintaxis implements SintaxisConstants {
     } else if (jj_2_4(2)) {
       EstructuraControl();
     } else if (jj_2_5(2)) {
-      Expresion();
+      DeclaracionReturn();
     } else if (jj_2_6(2)) {
-      Bloque();
-    } else if (jj_2_7(2)) {
       DeclaracionImpresion();
-    } else if (jj_2_8(2)) {
+    } else if (jj_2_7(2)) {
       DeclaracionLlamadaFuncion();
+    } else if (jj_2_8(2)) {
+      Expresion();
+      jj_consume_token(PUNTOYCOMA);
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -457,6 +461,13 @@ public class Sintaxis implements SintaxisConstants {
       ;
     }
     jj_consume_token(RPARENT);
+    jj_consume_token(PUNTOYCOMA);
+  }
+
+// Define una declaración de return
+  final public void DeclaracionReturn() throws ParseException {
+    jj_consume_token(RETURN);
+    Expresion();
     jj_consume_token(PUNTOYCOMA);
   }
 
@@ -915,23 +926,13 @@ public class Sintaxis implements SintaxisConstants {
     finally { jj_save(64, xla); }
   }
 
-  private boolean jj_3R_27() {
-    if (jj_3R_28()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3_25()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
   private boolean jj_3_12() {
     if (jj_scan_token(ARROW)) return true;
     if (jj_3R_20()) return true;
     return false;
   }
 
-  private boolean jj_3R_26() {
+  private boolean jj_3R_27() {
     if (jj_scan_token(IDENTIFIER)) return true;
     if (jj_scan_token(EQUAL)) return true;
     return false;
@@ -944,16 +945,11 @@ public class Sintaxis implements SintaxisConstants {
 
   private boolean jj_3_19() {
     if (jj_scan_token(ELSEIF)) return true;
-    if (jj_3R_16()) return true;
+    if (jj_3R_19()) return true;
     return false;
   }
 
-  private boolean jj_3_23() {
-    if (jj_3R_26()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_16() {
+  private boolean jj_3R_19() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_23()) {
@@ -963,19 +959,18 @@ public class Sintaxis implements SintaxisConstants {
     return false;
   }
 
+  private boolean jj_3_23() {
+    if (jj_3R_27()) return true;
+    return false;
+  }
+
   private boolean jj_3_15() {
     if (jj_scan_token(55)) return true;
     return false;
   }
 
-  private boolean jj_3R_17() {
+  private boolean jj_3R_26() {
     if (jj_scan_token(LBRACE)) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3_22()) { jj_scanpos = xsp; break; }
-    }
-    if (jj_scan_token(RBRACE)) return true;
     return false;
   }
 
@@ -987,7 +982,7 @@ public class Sintaxis implements SintaxisConstants {
 
   private boolean jj_3R_24() {
     if (jj_scan_token(WHILE)) return true;
-    if (jj_3R_16()) return true;
+    if (jj_3R_19()) return true;
     return false;
   }
 
@@ -998,7 +993,7 @@ public class Sintaxis implements SintaxisConstants {
 
   private boolean jj_3R_23() {
     if (jj_scan_token(IF)) return true;
-    if (jj_3R_16()) return true;
+    if (jj_3R_19()) return true;
     return false;
   }
 
@@ -1075,7 +1070,7 @@ public class Sintaxis implements SintaxisConstants {
   }
 
   private boolean jj_3_65() {
-    if (jj_3R_37()) return true;
+    if (jj_3R_38()) return true;
     return false;
   }
 
@@ -1090,6 +1085,7 @@ public class Sintaxis implements SintaxisConstants {
 
   private boolean jj_3_8() {
     if (jj_3R_19()) return true;
+    if (jj_scan_token(PUNTOYCOMA)) return true;
     return false;
   }
 
@@ -1163,12 +1159,18 @@ public class Sintaxis implements SintaxisConstants {
     return false;
   }
 
+  private boolean jj_3R_16() {
+    if (jj_scan_token(RETURN)) return true;
+    if (jj_3R_19()) return true;
+    return false;
+  }
+
   private boolean jj_3_63() {
     if (jj_scan_token(PRINTLN)) return true;
     return false;
   }
 
-  private boolean jj_3R_18() {
+  private boolean jj_3R_17() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_63()) {
@@ -1186,12 +1188,12 @@ public class Sintaxis implements SintaxisConstants {
 
   private boolean jj_3_54() {
     if (jj_scan_token(COMMA)) return true;
-    if (jj_3R_16()) return true;
+    if (jj_3R_19()) return true;
     return false;
   }
 
   private boolean jj_3_53() {
-    if (jj_3R_37()) return true;
+    if (jj_3R_38()) return true;
     return false;
   }
 
@@ -1252,7 +1254,7 @@ public class Sintaxis implements SintaxisConstants {
     return false;
   }
 
-  private boolean jj_3R_37() {
+  private boolean jj_3R_38() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_55()) {
@@ -1263,7 +1265,7 @@ public class Sintaxis implements SintaxisConstants {
   }
 
   private boolean jj_3_55() {
-    if (jj_3R_16()) return true;
+    if (jj_3R_19()) return true;
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
@@ -1282,8 +1284,8 @@ public class Sintaxis implements SintaxisConstants {
     return false;
   }
 
-  private boolean jj_3R_19() {
-    if (jj_3R_36()) return true;
+  private boolean jj_3R_18() {
+    if (jj_3R_37()) return true;
     return false;
   }
 
@@ -1293,11 +1295,11 @@ public class Sintaxis implements SintaxisConstants {
   }
 
   private boolean jj_3_43() {
-    if (jj_3R_34()) return true;
+    if (jj_3R_35()) return true;
     return false;
   }
 
-  private boolean jj_3R_36() {
+  private boolean jj_3R_37() {
     if (jj_scan_token(IDENTIFIER)) return true;
     if (jj_scan_token(LPARENT)) return true;
     return false;
@@ -1335,7 +1337,7 @@ public class Sintaxis implements SintaxisConstants {
     jj_scanpos = xsp;
     if (jj_3_37()) return true;
     }
-    if (jj_3R_32()) return true;
+    if (jj_3R_33()) return true;
     return false;
   }
 
@@ -1349,7 +1351,7 @@ public class Sintaxis implements SintaxisConstants {
     return false;
   }
 
-  private boolean jj_3R_35() {
+  private boolean jj_3R_36() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_48()) {
@@ -1388,18 +1390,18 @@ public class Sintaxis implements SintaxisConstants {
     if (jj_3_41()) return true;
     }
     }
-    if (jj_3R_33()) return true;
+    if (jj_3R_34()) return true;
     return false;
   }
 
   private boolean jj_3_47() {
     if (jj_scan_token(LPARENT)) return true;
-    if (jj_3R_16()) return true;
+    if (jj_3R_19()) return true;
     return false;
   }
 
   private boolean jj_3_46() {
-    if (jj_3R_36()) return true;
+    if (jj_3R_37()) return true;
     return false;
   }
 
@@ -1408,7 +1410,7 @@ public class Sintaxis implements SintaxisConstants {
     return false;
   }
 
-  private boolean jj_3R_34() {
+  private boolean jj_3R_35() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_44()) {
@@ -1425,7 +1427,7 @@ public class Sintaxis implements SintaxisConstants {
   }
 
   private boolean jj_3_44() {
-    if (jj_3R_35()) return true;
+    if (jj_3R_36()) return true;
     return false;
   }
 
@@ -1447,7 +1449,7 @@ public class Sintaxis implements SintaxisConstants {
     }
     }
     }
-    if (jj_3R_31()) return true;
+    if (jj_3R_32()) return true;
     return false;
   }
 
@@ -1456,7 +1458,7 @@ public class Sintaxis implements SintaxisConstants {
     return false;
   }
 
-  private boolean jj_3R_33() {
+  private boolean jj_3R_34() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_42()) {
@@ -1473,18 +1475,18 @@ public class Sintaxis implements SintaxisConstants {
     jj_scanpos = xsp;
     if (jj_3_29()) return true;
     }
-    if (jj_3R_30()) return true;
+    if (jj_3R_31()) return true;
     return false;
   }
 
   private boolean jj_3_42() {
     if (jj_scan_token(NOT)) return true;
-    if (jj_3R_33()) return true;
+    if (jj_3R_34()) return true;
     return false;
   }
 
-  private boolean jj_3R_32() {
-    if (jj_3R_33()) return true;
+  private boolean jj_3R_33() {
+    if (jj_3R_34()) return true;
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
@@ -1495,18 +1497,18 @@ public class Sintaxis implements SintaxisConstants {
 
   private boolean jj_3_26() {
     if (jj_scan_token(AND)) return true;
-    if (jj_3R_29()) return true;
+    if (jj_3R_30()) return true;
     return false;
   }
 
   private boolean jj_3_20() {
     if (jj_scan_token(ELSE)) return true;
-    if (jj_3R_17()) return true;
+    if (jj_3R_26()) return true;
     return false;
   }
 
-  private boolean jj_3R_31() {
-    if (jj_3R_32()) return true;
+  private boolean jj_3R_32() {
+    if (jj_3R_33()) return true;
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
@@ -1517,7 +1519,7 @@ public class Sintaxis implements SintaxisConstants {
 
   private boolean jj_3_25() {
     if (jj_scan_token(OR)) return true;
-    if (jj_3R_28()) return true;
+    if (jj_3R_29()) return true;
     return false;
   }
 
@@ -1526,8 +1528,8 @@ public class Sintaxis implements SintaxisConstants {
     return false;
   }
 
-  private boolean jj_3R_30() {
-    if (jj_3R_31()) return true;
+  private boolean jj_3R_31() {
+    if (jj_3R_32()) return true;
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
@@ -1536,8 +1538,8 @@ public class Sintaxis implements SintaxisConstants {
     return false;
   }
 
-  private boolean jj_3R_29() {
-    if (jj_3R_30()) return true;
+  private boolean jj_3R_30() {
+    if (jj_3R_31()) return true;
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
@@ -1547,7 +1549,17 @@ public class Sintaxis implements SintaxisConstants {
   }
 
   private boolean jj_3_24() {
-    if (jj_3R_27()) return true;
+    if (jj_3R_28()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_29() {
+    if (jj_3R_30()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3_26()) { jj_scanpos = xsp; break; }
+    }
     return false;
   }
 
@@ -1556,7 +1568,7 @@ public class Sintaxis implements SintaxisConstants {
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
-      if (jj_3_26()) { jj_scanpos = xsp; break; }
+      if (jj_3_25()) { jj_scanpos = xsp; break; }
     }
     return false;
   }

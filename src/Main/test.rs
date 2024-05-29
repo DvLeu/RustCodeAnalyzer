@@ -1,10 +1,4 @@
-fn main() {
-/*
-Hola como estas soy un comentario multilinea debo ser ignorado mi expresion regular lo debe permitir
-*/
-    for number in 1..=10 {
-        if number % 2 == 0 {
-            println!("Número par: {}", number);
-        }
-    }
-}
+let x: i32 = 10;
+let y = 20;
+let z: f64 = 10.5;
+let mut w = true;

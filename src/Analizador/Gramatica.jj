@@ -93,12 +93,12 @@ TOKEN : {
 
 /** Fin Lexico **/
 
-// Comienza analizador de syntaxis.
+// Comienza analizador de sintaxis.
 
 // Define el programa como una serie de declaraciones
 void Program() : {}
 {
-    (Declaracion())*
+    (Declaracion())* <EOF>
 }
 
 // Define una declaración como una declaración de variable, una declaración de función, una estructura de control, una expresión o un bloque
@@ -107,10 +107,10 @@ void Declaracion() : {}
     DeclaracionVariable()
   | DeclaracionFuncion()
   | EstructuraControl()
-  | Expresion()
-  | Bloque()
+  | DeclaracionReturn()
   | DeclaracionImpresion()
   | DeclaracionLlamadaFuncion()
+  | Expresion() <PUNTOYCOMA>
 }
 
 // Define una declaración de variable
@@ -275,4 +275,10 @@ void Tipo() : {}
 void DeclaracionImpresion() : {}
 {
     (<PRINTLN> | <PRINT> ) <LPARENT> [ListaArgumentos()] <RPARENT> <PUNTOYCOMA>
+}
+
+// Define una declaración de return
+void DeclaracionReturn() : {}
+{
+    <RETURN> Expresion() <PUNTOYCOMA>
 }

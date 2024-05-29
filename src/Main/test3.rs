@@ -1,6 +1,9 @@
-fn main() {
-    // Iterar sobre una colección de números del 1 al 10
-    for number in 1..=10 {
-        println!("Número: {}", number);
-    }
+let number = 10;
+
+if number < 0 {
+    println!("The number is negative");
+} else if number == 0 {
+    println!("The number is zero");
+} else {
+    println!("The number is positive");
 }
