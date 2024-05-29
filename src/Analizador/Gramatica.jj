@@ -87,6 +87,7 @@ TOKEN : {
   | < IDENTIFIER: (["a"-"z", "A"-"Z", "_"]) (["a"-"z", "A"-"Z", "0"-"9", "_"])* >
 }
 
+
 /** Fin Lexico **/
 
 // Define el programa como una serie de declaraciones
@@ -153,7 +154,7 @@ void WhileStatement() : {}
 // Define una declaración for
 void ForStatement() : {}
 {
-    <FOR> <IDENTIFIER> <IN> Expression() Block()
+    <FOR> <IDENTIFIER> <IN> Expression() "=" <INT> Block()
 }
 
 // Define un bloque de código

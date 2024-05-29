@@ -96,7 +96,7 @@ public class Sintaxis implements SintaxisConstants {
         Parameter();
       }
     } else if (jj_2_14(2)) {
-      jj_consume_token(51);
+      jj_consume_token(52);
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -150,6 +150,8 @@ public class Sintaxis implements SintaxisConstants {
     jj_consume_token(IDENTIFIER);
     jj_consume_token(IN);
     Expression();
+    jj_consume_token(EQUAL);
+    jj_consume_token(INT);
     Block();
   }
 
@@ -252,7 +254,7 @@ public class Sintaxis implements SintaxisConstants {
         Expression();
       }
     } else if (jj_2_33(2)) {
-      jj_consume_token(51);
+      jj_consume_token(52);
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -701,12 +703,6 @@ public class Sintaxis implements SintaxisConstants {
     finally { jj_save(51, xla); }
   }
 
-  private boolean jj_3_24() {
-    if (jj_scan_token(LPARENT)) return true;
-    if (jj_3R_23()) return true;
-    return false;
-  }
-
   private boolean jj_3_23() {
     if (jj_3R_22()) return true;
     return false;
@@ -782,7 +778,7 @@ public class Sintaxis implements SintaxisConstants {
   }
 
   private boolean jj_3_14() {
-    if (jj_scan_token(51)) return true;
+    if (jj_scan_token(52)) return true;
     return false;
   }
 
@@ -814,7 +810,7 @@ public class Sintaxis implements SintaxisConstants {
   }
 
   private boolean jj_3_33() {
-    if (jj_scan_token(51)) return true;
+    if (jj_scan_token(52)) return true;
     return false;
   }
 
@@ -1197,6 +1193,12 @@ public class Sintaxis implements SintaxisConstants {
     return false;
   }
 
+  private boolean jj_3_24() {
+    if (jj_scan_token(LPARENT)) return true;
+    if (jj_3R_23()) return true;
+    return false;
+  }
+
   /** Generated Token Manager. */
   public SintaxisTokenManager token_source;
   SimpleCharStream jj_input_stream;
@@ -1411,7 +1413,7 @@ public class Sintaxis implements SintaxisConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[52];
+    boolean[] la1tokens = new boolean[53];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -1428,7 +1430,7 @@ public class Sintaxis implements SintaxisConstants {
         }
       }
     }
-    for (int i = 0; i < 52; i++) {
+    for (int i = 0; i < 53; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

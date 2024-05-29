@@ -1,18 +1,27 @@
 fn main() {
-    let x: i32 = 10;
-    let y: f64 = 20.5;
-
-    if x < 20 {
-        println!("x is less than 20");
-    } else {
-        println!("x is greater than or equal to 20");
+    let mut count = 0;
+    let name = "Mundo";
+    greet(name);
+    if count == 0 {
+        println!("El contador está en cero");
+    }
+    while count < 5 {
+        println!("Contador: {}", count);
+        count += 1;
     }
 
-    print_values(x, y, is_true);
+    for number in 0..5 {
+        println!("Número: {}", number);
+    }
+
+    let sum_result = sum(5, 3);
+    println!("La suma de 5 y 3 es: {}", sum_result);
 }
 
-fn print_values(a: i32, b: f64, c: bool) {
-    println!("Integer value: {}", a);
-    println!("Float value: {}", b);
-    println!("Boolean value: {}", c);
+fn greet(name: &str) {
+    println!("Hola, {}!", name);
+}
+
+fn sum(a: i32, b: i32) -> i32 {
+    a + b
 }
