@@ -23,6 +23,8 @@ SKIP : {
   | "\t"
   | "\r"
   | "\n"
+  | <SINGLE_LINE_COMMENT: "//" (~["\n", "\r"])* ("\n" | "\r" | "\r\n)>
+  | <MULTI_LINE_COMMENT: "/*" (~["*"] | "*" ~["/"])* "*/">
 }
 
 // Tokens de palabras reservadas
@@ -39,9 +41,9 @@ TOKEN : {
   | < F64: "f64" >
   | < BOOL: "bool" >
   | < STR: "str" >
-  | <INTKEY : "int">
-  | < STRINGKEY: "String" >
+  | < STRING_KEYWORD: "String" >
   | < PRINTLN: "println!" >
+  | < PRINT: "print!" >
 }
 
 // Tokens de operadores
@@ -81,12 +83,13 @@ TOKEN : {
 TOKEN : {
     < INT: (["0"-"9"])+ >
   | < FLOAT: (["0"-"9"])+ "." (["0"-"9"])+ >
-  | < STRING: "'"(["a"-"z"] | ["A" - "Z"] | ["0"-"9"] | [" "]) + "'">
+  | < STRING: "\"" (~["\""])* "\"" >
   | < IDENTIFIER: (["a"-"z", "A"-"Z", "_"]) (["a"-"z", "A"-"Z", "0"-"9", "_"])* >
 }
 
 /** Fin Lexico **/
 
+// Define el programa como una serie de declaraciones
 void Program() : {}
 {
     (Statement())*
@@ -96,28 +99,123 @@ void Program() : {}
 void Statement() : {}
 {
     VariableDeclaration()
+  | FunctionDeclaration()
 }
 
 // Define una declaración de variable
 void VariableDeclaration() : {}
 {
-    <LET> [<MUT>] <IDENTIFIER> [":" Type()] <EQUAL> Literal() <PUNTOYCOMA>
+    <LET> [<MUT>] <IDENTIFIER> [":" Type()] "=" Expression() <PUNTOYCOMA>
 }
 
+// Define una declaración de función
+void FunctionDeclaration() : {}
+{
+    <FN> <IDENTIFIER> <LPARENT> [ParameterList()] <RPARENT> [ <ARROW> Type() ] Block()
+}
+
+// Define una lista de parámetros de función
+void ParameterList() : {}
+{
+    Parameter() ( <COMMA> Parameter() )* | ""
+}
+
+// Define un parámetro de función
+void Parameter() : {}
+{
+    <IDENTIFIER> <COLON> Type()
+}
+
+// Define un bloque de código
+void Block() : {}
+{
+    <LBRACE> (Statement())* <RBRACE>
+}
+
+// Define una expresión, que puede ser una asignación o una expresión lógica OR
+void Expression() : {}
+{
+    Assignment() | LogicalOrExpression()
+}
+
+// Define una asignación
+void Assignment() : {}
+{
+    <IDENTIFIER> <EQUAL> Expression()
+}
+
+// Define una expresión lógica OR
+void LogicalOrExpression() : {}
+{
+    LogicalAndExpression() ( <OR> LogicalAndExpression() )*
+}
+
+// Define una expresión lógica AND
+void LogicalAndExpression() : {}
+{
+    EqualityExpression() ( <AND> EqualityExpression() )*
+}
+
+// Define una expresión de igualdad
+void EqualityExpression() : {}
+{
+    RelationalExpression() ( ( <EQUALTO> | <NOTEQUAL> ) RelationalExpression() )*
+}
+
+// Define una expresión relacional
+void RelationalExpression() : {}
+{
+    AdditiveExpression() ( ( <LESSTHAN> | <GREATERTHAN> | <LESSTHANEQUAL> | <GREATERTHANEQUAL> ) AdditiveExpression() )*
+}
+
+// Define una expresión aditiva
+void AdditiveExpression() : {}
+{
+    MultiplicativeExpression() ( ( <PLUS> | <MINUS> ) MultiplicativeExpression() )*
+}
+
+// Define una expresión multiplicativa
+void MultiplicativeExpression() : {}
+{
+    UnaryExpression() ( ( <MULTIPLICATION> | <DIVISION> | <MODULUS> ) UnaryExpression() )*
+}
+
+// Define una expresión unaria
+void UnaryExpression() : {}
+{
+    <NOT> UnaryExpression() | PrimaryExpression()
+}
+
+// Define una expresión primaria
+void PrimaryExpression() : {}
+{
+    <IDENTIFIER> |
+    <INT> |
+    <FLOAT> |
+    <STRING> |
+    FunctionCall() |
+    <LPARENT> Expression() <RPARENT>
+}
+
+// Define una llamada a función
+void FunctionCall() : {}
+{
+    <IDENTIFIER> <LPARENT> [ArgumentList()] <RPARENT>
+}
+
+// Define una lista de argumentos para una llamada a función
+void ArgumentList() : {}
+{
+    Expression() ( <COMMA> Expression() )* | ""
+}
+
+// Define un tipo de dato
 void Type() : {}
 {
     <I32> |
     <F64> |
     <BOOL> |
-    <STRINGKEY> |
-    <INTKEY>
-}
-
-void Literal() : {}
-{
-    <STRING> |
-    <FLOAT> |
-    <INT> |
-    <TRUE> |
-    <FALSE>
+    <STR> |
+    <STRING_KEYWORD> |
+    <IDENTIFIER>
 }
