@@ -45,6 +45,7 @@ TOKEN : {
   | < STR: "str" >
   | < STRING_KEYWORD: "String" >
   | < PRINTLN: "println!" >
+  | <PRINT: "print!">
 }
 
 // Tokens de operadores
@@ -293,5 +294,5 @@ void Type() : {}
 // Define una declaración de impresión
 void PrintStatement() : {}
 {
-    <PRINTLN> <LPARENT> [ArgumentList()] <RPARENT> <PUNTOYCOMA>
+    (<PRINTLN> | <PRINT> ) <LPARENT> [ArgumentList()] <RPARENT> <PUNTOYCOMA>
 }
