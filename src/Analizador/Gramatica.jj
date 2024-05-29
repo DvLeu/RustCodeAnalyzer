@@ -23,8 +23,6 @@ SKIP : {
   | "\t"
   | "\r"
   | "\n"
-  | <SINGLE_LINE_COMMENT: "//" (~["\n", "\r"])* ("\n" | "\r" | "\r\n)>
-  | <MULTI_LINE_COMMENT: "/*" (~["*"] | "*" ~["/"])* "*/">
 }
 
 // Tokens de palabras reservadas
@@ -35,6 +33,9 @@ TOKEN : {
   | < RETURN: "return" >
   | < IF: "if" >
   | < ELSE: "else" >
+  | < WHILE: "while" >
+  | < FOR: "for" >
+  | < IN: "in" >
   | < TRUE: "true" >
   | < FALSE: "false" >
   | < I32: "i32" >
@@ -43,7 +44,6 @@ TOKEN : {
   | < STR: "str" >
   | < STRING_KEYWORD: "String" >
   | < PRINTLN: "println!" >
-  | < PRINT: "print!" >
 }
 
 // Tokens de operadores
@@ -95,11 +95,15 @@ void Program() : {}
     (Statement())*
 }
 
-// Define una declaración como una declaración de variable o una declaración de función
+// Define una declaración como una declaración de variable, una declaración de función, una estructura de control, una expresión o un bloque
 void Statement() : {}
 {
     VariableDeclaration()
   | FunctionDeclaration()
+  | ControlStructure()
+  | ExpressionStatement()
+  | Block()
+  | PrintStatement()
 }
 
 // Define una declaración de variable
@@ -126,75 +130,67 @@ void Parameter() : {}
     <IDENTIFIER> <COLON> Type()
 }
 
+// Define una estructura de control
+void ControlStructure() : {}
+{
+    IfStatement()
+  | WhileStatement()
+  | ForStatement()
+}
+
+// Define una declaración if
+void IfStatement() : {}
+{
+    <IF> Expression() Block() [ <ELSE> Block() ]
+}
+
+// Define una declaración while
+void WhileStatement() : {}
+{
+    <WHILE> Expression() Block()
+}
+
+// Define una declaración for
+void ForStatement() : {}
+{
+    <FOR> <IDENTIFIER> <IN> Expression() Block()
+}
+
 // Define un bloque de código
 void Block() : {}
 {
     <LBRACE> (Statement())* <RBRACE>
 }
 
-// Define una expresión, que puede ser una asignación o una expresión lógica OR
+// Define una expresión
+void ExpressionStatement() : {}
+{
+    Expression() <PUNTOYCOMA>
+}
+
+// Define una expresión, que puede ser un literal, un identificador, una llamada a función, una operación binaria, una operación unaria, o una expresión entre paréntesis
 void Expression() : {}
 {
-    Assignment() | LogicalOrExpression()
+    PrimaryExpression() (BinaryOperator() PrimaryExpression())*
 }
 
-// Define una asignación
-void Assignment() : {}
-{
-    <IDENTIFIER> <EQUAL> Expression()
-}
-
-// Define una expresión lógica OR
-void LogicalOrExpression() : {}
-{
-    LogicalAndExpression() ( <OR> LogicalAndExpression() )*
-}
-
-// Define una expresión lógica AND
-void LogicalAndExpression() : {}
-{
-    EqualityExpression() ( <AND> EqualityExpression() )*
-}
-
-// Define una expresión de igualdad
-void EqualityExpression() : {}
-{
-    RelationalExpression() ( ( <EQUALTO> | <NOTEQUAL> ) RelationalExpression() )*
-}
-
-// Define una expresión relacional
-void RelationalExpression() : {}
-{
-    AdditiveExpression() ( ( <LESSTHAN> | <GREATERTHAN> | <LESSTHANEQUAL> | <GREATERTHANEQUAL> ) AdditiveExpression() )*
-}
-
-// Define una expresión aditiva
-void AdditiveExpression() : {}
-{
-    MultiplicativeExpression() ( ( <PLUS> | <MINUS> ) MultiplicativeExpression() )*
-}
-
-// Define una expresión multiplicativa
-void MultiplicativeExpression() : {}
-{
-    UnaryExpression() ( ( <MULTIPLICATION> | <DIVISION> | <MODULUS> ) UnaryExpression() )*
-}
-
-// Define una expresión unaria
-void UnaryExpression() : {}
-{
-    <NOT> UnaryExpression() | PrimaryExpression()
-}
-
-// Define una expresión primaria
+// Define un literal
 void PrimaryExpression() : {}
 {
-    <IDENTIFIER> |
-    <INT> |
-    <FLOAT> |
-    <STRING> |
-    FunctionCall() |
-    <LPARENT> Expression() <RPARENT>
+    Literal()
+  | <IDENTIFIER>
+  | FunctionCall()
+  | <LPARENT> Expression() <RPARENT>
+}
+
+// Define un literal
+void Literal() : {}
+{
+    <INT>
+  | <FLOAT>
+  | <STRING>
+  | <TRUE>
+  | <FALSE>
 }
 
 // Define una llamada a función
@@ -203,10 +199,32 @@ void FunctionCall() : {}
     <IDENTIFIER> <LPARENT> [ArgumentList()] <RPARENT>
 }
 
-// Define una lista de argumentos para una llamada a función
+// Define una lista de argumentos
 void ArgumentList() : {}
 {
     Expression() ( <COMMA> Expression() )* | ""
+}
+
+// Define una operación binaria
+void BinaryOperator() : {}
+{
+    <PLUS> | <MINUS> | <MULTIPLICATION> | <DIVISION> | <EQUALTO> | <NOTEQUAL> | <LESSTHAN> | <GREATERTHAN> | <LESSTHANEQUAL> | <GREATERTHANEQUAL>
+}
+
+// Define una operación unaria
+void UnaryOperation() : {}
+{
+    UnaryOperator() PrimaryExpression()
+}
+
+// Define un operador unario
+void UnaryOperator() : {}
+{
+    <NOT> | <MINUS>
+}
+void PrintStatement() : {}
+{
+    <PRINTLN> <LPARENT> [ArgumentList()] <RPARENT> <PUNTOYCOMA>
 }
 
 // Define un tipo de dato

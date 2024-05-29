@@ -1,7 +1,6 @@
 fn main() {
     let x: i32 = 10;
     let y: f64 = 20.5;
-    let is_true: bool = true;
 
     if x < 20 {
         println!("x is less than 20");
