@@ -1,4 +1,17 @@
 fn main() {
+/* Este es un comentario multilínea
+       que abarca varias líneas
+       de código en Rust */
+
+    let x = 10; /* También puedes incluir comentarios multilínea
+                   al lado del código */
+
+    /* Los comentarios multilínea
+       pueden ser anidados
+       /* como este */
+       /*dentro de otros */
+
+    println!("El valor de x es: {}", x);
     let mut sum = 0;
     for i in 1..=10 {
         if i % 2 == 0 {
@@ -25,18 +38,4 @@ fn add(a: i32, b: i32) -> i32 {
 for i in 0..10 {
     println!("i is at {}", i);
 }
-fn main() {
-    /* Este es un comentario multilínea
-       que abarca varias líneas
-       de código en Rust */
 
-    let x = 10; /* También puedes incluir comentarios multilínea
-                   al lado del código */
-
-    /* Los comentarios multilínea
-       pueden ser anidados
-       /* como este */
-       /*dentro de otros */
-
-    println!("El valor de x es: {}", x);
-}
