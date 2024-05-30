@@ -79,33 +79,37 @@ public interface SintaxisConstants {
   /** RegularExpression Id. */
   int EQUAL = 40;
   /** RegularExpression Id. */
-  int LPARENT = 41;
+  int PLUSEQUAL = 41;
   /** RegularExpression Id. */
-  int RPARENT = 42;
+  int MINUSEQUAL = 42;
   /** RegularExpression Id. */
-  int LBRACKET = 43;
+  int LPARENT = 43;
   /** RegularExpression Id. */
-  int RBRACKET = 44;
+  int RPARENT = 44;
   /** RegularExpression Id. */
-  int LBRACE = 45;
+  int LBRACKET = 45;
   /** RegularExpression Id. */
-  int RBRACE = 46;
+  int RBRACKET = 46;
   /** RegularExpression Id. */
-  int COMMA = 47;
+  int LBRACE = 47;
   /** RegularExpression Id. */
-  int PUNTOYCOMA = 48;
+  int RBRACE = 48;
   /** RegularExpression Id. */
-  int COLON = 49;
+  int COMMA = 49;
   /** RegularExpression Id. */
-  int ARROW = 50;
+  int PUNTOYCOMA = 50;
   /** RegularExpression Id. */
-  int INT = 51;
+  int COLON = 51;
   /** RegularExpression Id. */
-  int FLOAT = 52;
+  int ARROW = 52;
   /** RegularExpression Id. */
-  int STRING = 53;
+  int INT = 53;
   /** RegularExpression Id. */
-  int IDENTIFIER = 54;
+  int FLOAT = 54;
+  /** RegularExpression Id. */
+  int STRING = 55;
+  /** RegularExpression Id. */
+  int IDENTIFIER = 56;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -153,6 +157,8 @@ public interface SintaxisConstants {
     "\"||\"",
     "\"!\"",
     "\"=\"",
+    "\"+=\"",
+    "\"-=\"",
     "\"(\"",
     "\")\"",
     "\"[\"",

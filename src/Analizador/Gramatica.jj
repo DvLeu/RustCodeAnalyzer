@@ -67,6 +67,8 @@ TOKEN : {
   | < OR: "||" >
   | < NOT: "!" >
   | < EQUAL: "=" >
+  | < PLUSEQUAL: "+=" >
+  | < MINUSEQUAL: "-=" >
 }
 
 // Tokens de símbolos
@@ -178,7 +180,7 @@ void Expresion() : {}
 // Define una asignación
 void ExpresionAsignacion() : {}
 {
-    <IDENTIFIER> <EQUAL> Expresion()
+    ( <IDENTIFIER> ( <EQUAL> | <PLUSEQUAL> | <MINUSEQUAL> ) Expresion() )
 }
 
 // Define una expresión lógica OR
