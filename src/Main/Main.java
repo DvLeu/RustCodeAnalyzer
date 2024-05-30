@@ -9,7 +9,7 @@ import java.io.InputStream;
 
 public class Main {
     public static void main(String[] args) {
-        String filePath = "C:\\Users\\chapu\\IdeaProjects\\ParserFinalF\\src\\Main\\test.rs";
+        String filePath = "C:\\Users\\chapu\\IdeaProjects\\Rust-Parser\\src\\Main\\test.txt";
 
         try {
             InputStream inputStream = new FileInputStream(filePath);
@@ -24,5 +24,4 @@ public class Main {
         } catch (FileNotFoundException e) {
             System.out.println("El archivo no se encontró");
         }
-    }
-}
+    }}
