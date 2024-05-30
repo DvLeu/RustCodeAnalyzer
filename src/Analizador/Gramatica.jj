@@ -120,6 +120,9 @@ void DeclaracionVariable() : {}
 {
     <LET> [<MUT>] <IDENTIFIER> [":" Tipo()] "=" Expresion() <PUNTOYCOMA>
 }
+void arreglo(): {}{
+    <>
+}
 
 // Define una declaración de función
 void DeclaracionFuncion() : {}
