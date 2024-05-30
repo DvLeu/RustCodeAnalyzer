@@ -56,7 +56,7 @@ RustParser es un proyecto desarrollado en IntelliJ IDEA para analizar y validar 
 
 ## Ejemplo de Código
 
-Ejemplo de un archivo `test.txt` para probar el analizador:
+Ejemplo de un archivo `test.rs` para probar el analizador:
 
 ```rust
 fn main() {
