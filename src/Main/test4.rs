@@ -1,6 +1,15 @@
-let mut counter = 0;
+fn main() {
+    /* Este es un comentario multilínea
+       que abarca varias líneas
+       de código en Rust */
 
-while counter < 10 {
-    println!("Counter is at {}", counter);
-    counter = counter + 1;
+    let x = 10; /* También puedes incluir comentarios multilínea
+                   al lado del código */
+
+    /* Los comentarios multilínea
+       pueden ser anidados
+       /* como este */
+       /*dentro de otros */
+
+    println!("El valor de x es: {}", x);
 }
