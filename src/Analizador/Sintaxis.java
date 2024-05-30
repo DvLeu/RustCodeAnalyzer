@@ -1141,13 +1141,13 @@ public class Sintaxis implements SintaxisConstants {
     return false;
   }
 
-  private boolean jj_3_3() {
-    if (jj_3R_14()) return true;
+  private boolean jj_3_59() {
+    if (jj_scan_token(57)) return true;
     return false;
   }
 
-  private boolean jj_3_59() {
-    if (jj_scan_token(57)) return true;
+  private boolean jj_3_3() {
+    if (jj_3R_14()) return true;
     return false;
   }
 
