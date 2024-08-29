@@ -67,8 +67,6 @@ TOKEN : {
   | < OR: "||" >
   | < NOT: "!" >
   | < EQUAL: "=" >
-  | < PLUSEQUAL: "+=" >
-  | < MINUSEQUAL: "-=" >
 }
 
 // Tokens de símbolos
@@ -120,7 +118,6 @@ void DeclaracionVariable() : {}
 {
     <LET> [<MUT>] <IDENTIFIER> [":" Tipo()] "=" Expresion() <PUNTOYCOMA>
 }
-
 
 // Define una declaración de función
 void DeclaracionFuncion() : {}
@@ -181,7 +178,7 @@ void Expresion() : {}
 // Define una asignación
 void ExpresionAsignacion() : {}
 {
-    ( <IDENTIFIER> ( <EQUAL> | <PLUSEQUAL> | <MINUSEQUAL> ) Expresion() )
+    <IDENTIFIER> <EQUAL> Expresion()
 }
 
 // Define una expresión lógica OR
