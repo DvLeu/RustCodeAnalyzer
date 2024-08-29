@@ -48,6 +48,8 @@ TOKEN : {
   | < STRING_KEYWORD: "String" >
   | < PRINTLN: "println!" >
   | < PRINT: "print!" >
+  | <STRUCT : "struct">
+  | <IMPL : "impl">
 }
 
 // Tokens de operadores
@@ -105,11 +107,14 @@ void Program() : {}
 void Declaracion() : {}
 {
     DeclaracionVariable()
+    | DeclaracionArreglo()
   | DeclaracionFuncion()
   | EstructuraControl()
   | DeclaracionReturn()
   | DeclaracionImpresion()
   | DeclaracionLlamadaFuncion()
+  | DeclaracionEstructura()
+  | DeclaracionImplementacion()
   | Expresion() <PUNTOYCOMA>
 }
 
@@ -123,6 +128,17 @@ void DeclaracionVariable() : {}
 void DeclaracionFuncion() : {}
 {
     <FN> <IDENTIFIER> <LPARENT> [ListaParametros()] <RPARENT> [ <ARROW> Tipo() ] Bloque()
+}
+// Define una declaración de arreglo
+void DeclaracionArreglo() : {}
+{
+    <LET> [<MUT>] <IDENTIFIER> [":" Tipo()] "=" <LBRACKET> ListaElementos() <RBRACKET> <PUNTOYCOMA>
+}
+
+// Define una lista de elementos de un arreglo
+void ListaElementos() : {}
+{
+    Expresion() ( <COMMA> Expresion() )* | ""
 }
 
 // Define una lista de parámetros de función
@@ -281,4 +297,28 @@ void DeclaracionImpresion() : {}
 void DeclaracionReturn() : {}
 {
     <RETURN> Expresion() <PUNTOYCOMA>
+}
+
+// Define una declaración de estructura
+void DeclaracionEstructura() : {}
+{
+    <STRUCT> <IDENTIFIER> <LBRACE> ListaAtributos() <RBRACE>
+}
+
+// Define una lista de atributos de la estructura
+void ListaAtributos() : {}
+{
+    (Atributo() <PUNTOYCOMA> )* | ""
+}
+
+// Define un atributo de la estructura
+void Atributo() : {}
+{
+    <IDENTIFIER> <COLON> Tipo()
+}
+
+// Define una declaración de implementación
+void DeclaracionImplementacion() : {}
+{
+    <IMPL> <IDENTIFIER> <LBRACE> (DeclaracionFuncion())* <RBRACE>
 }

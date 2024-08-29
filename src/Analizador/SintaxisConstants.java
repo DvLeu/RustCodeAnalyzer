@@ -49,39 +49,39 @@ public interface SintaxisConstants {
   /** RegularExpression Id. */
   int PRINT = 25;
   /** RegularExpression Id. */
-  int PLUS = 26;
+  int STRUCT = 26;
   /** RegularExpression Id. */
-  int MINUS = 27;
+  int IMPL = 27;
   /** RegularExpression Id. */
-  int MULTIPLICATION = 28;
+  int PLUS = 28;
   /** RegularExpression Id. */
-  int DIVISION = 29;
+  int MINUS = 29;
   /** RegularExpression Id. */
-  int MODULUS = 30;
+  int MULTIPLICATION = 30;
   /** RegularExpression Id. */
-  int EQUALTO = 31;
+  int DIVISION = 31;
   /** RegularExpression Id. */
-  int NOTEQUAL = 32;
+  int MODULUS = 32;
   /** RegularExpression Id. */
-  int LESSTHAN = 33;
+  int EQUALTO = 33;
   /** RegularExpression Id. */
-  int GREATERTHAN = 34;
+  int NOTEQUAL = 34;
   /** RegularExpression Id. */
-  int LESSTHANEQUAL = 35;
+  int LESSTHAN = 35;
   /** RegularExpression Id. */
-  int GREATERTHANEQUAL = 36;
+  int GREATERTHAN = 36;
   /** RegularExpression Id. */
-  int AND = 37;
+  int LESSTHANEQUAL = 37;
   /** RegularExpression Id. */
-  int OR = 38;
+  int GREATERTHANEQUAL = 38;
   /** RegularExpression Id. */
-  int NOT = 39;
+  int AND = 39;
   /** RegularExpression Id. */
-  int EQUAL = 40;
+  int OR = 40;
   /** RegularExpression Id. */
-  int PLUSEQUAL = 41;
+  int NOT = 41;
   /** RegularExpression Id. */
-  int MINUSEQUAL = 42;
+  int EQUAL = 42;
   /** RegularExpression Id. */
   int LPARENT = 43;
   /** RegularExpression Id. */
@@ -142,6 +142,8 @@ public interface SintaxisConstants {
     "\"String\"",
     "\"println!\"",
     "\"print!\"",
+    "\"struct\"",
+    "\"impl\"",
     "\"+\"",
     "\"-\"",
     "\"*\"",
@@ -157,8 +159,6 @@ public interface SintaxisConstants {
     "\"||\"",
     "\"!\"",
     "\"=\"",
-    "\"+=\"",
-    "\"-=\"",
     "\"(\"",
     "\")\"",
     "\"[\"",
